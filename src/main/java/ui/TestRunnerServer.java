@@ -102,8 +102,26 @@ public final class TestRunnerServer {
         }
 
         resetLog();
+        resetPreviousRunState();
         Thread.ofVirtual().start(() -> runViaCi(tag));
         respondJson(exchange, 202, "{\"started\":true}");
+    }
+
+    /**
+     * Clears results/report/error from a previous run before a new one starts,
+     * so a run that fails before producing an artifact (e.g. CI compile error)
+     * doesn't leave the previous run's stale results/report on screen.
+     */
+    private void resetPreviousRunState() {
+        lastResults.set(List.of());
+        lastError.set(null);
+        lastRunId.set(null);
+        lastRunUrl.set(null);
+        try {
+            resetDir(ALLURE_REPORT_DIR);
+        } catch (IOException e) {
+            appendLog("Could not clear the previous Allure report: " + e.getMessage());
+        }
     }
 
     private void runViaCi(String tag) {

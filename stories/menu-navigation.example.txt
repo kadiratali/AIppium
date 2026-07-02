@@ -1,0 +1,15 @@
+As a user of the ApiDemos app
+I want to navigate to Views > Buttons from the main menu
+So that I can verify the Buttons screen is displayed with its controls
+
+Acceptance criteria:
+- Starting from the top-level menu, the user selects "Views" and then "Buttons".
+- The Buttons screen shows a "Normal" button, a "Toggle" button and an "Image button".
+- All three controls are visible after navigation.
+
+Notes for the test:
+- Reuse the existing reusable step "the user navigates to the following menu" with a
+  DataTable (MenuItem: Views, then Buttons) instead of writing new navigation steps.
+- Put all locators in a constants class; prefer resource-id (io.appium.android.apis:id/...)
+  where possible, otherwise accessibility id (content-desc) or @text xpath.
+- Tag the scenario @Regression @Smoke @Buttons.

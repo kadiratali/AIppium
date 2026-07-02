@@ -27,7 +27,7 @@ jobs:
           cache: maven
 
       # No Android emulator in this job: this only verifies the project
-      # (main + test sources, including the AI layer) compiles cleanly.
+      # (main + test sources) compiles cleanly.
       - name: Compile
         run: mvn -B -q compile test-compile
 
@@ -115,39 +115,6 @@ jobs:
             reports/
             target-*/allure-results/
 
-  ai-analysis:
-    name: AI failure analysis (demo)
-    needs: build
-    runs-on: ubuntu-latest
-    # The `secrets` context can't be used inside `if:` conditions at all (job or
-    # step level) - GitHub Actions rejects the expression outright. The documented
-    # workaround is to copy the secret into a job-level env var and gate on that.
-    env:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-    steps:
-      - uses: actions/checkout@v4
-        if: ${{ env.ANTHROPIC_API_KEY != '' }}
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        if: ${{ env.ANTHROPIC_API_KEY != '' }}
-        with:
-          distribution: temurin
-          java-version: '17'
-          cache: maven
-
-      # Runs the AI Failure Analyzer against a checked-in sample report
-      # (src/test/resources/fixtures) since this job doesn't run real
-      # Appium/emulator tests. Demonstrates the ai.Cli "analyze" flow in CI.
-      - name: Run AI failure analyzer on sample report
-        if: ${{ env.ANTHROPIC_API_KEY != '' }}
-        run: >
-          mvn -q compile exec:java
-          -Dexec.args="analyze src/test/resources/fixtures/sample-cucumber-report.json"
-
-      - name: Upload AI analysis report
-        if: ${{ env.ANTHROPIC_API_KEY != '' }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: ai-analysis
-          path: reports/ai-analysis.md
+  # The ai-analysis job (ai.Cli-based failure analysis) is removed while the
+  # src/main/java/ai package is temporarily out of the codebase; re-add it
+  # alongside that package.

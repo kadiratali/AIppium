@@ -53,13 +53,6 @@
             <version>${appium.version}</version>
         </dependency>
 
-        <!-- Gson: AI katmanının JSON serileştirme/ayrıştırması (main scope) -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.10.1</version>
-        </dependency>
-
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -140,15 +133,6 @@
 
 
         <plugins>
-            <!-- AI CLI'ı çalıştırmak için: mvn -q compile exec:java -Dexec.args="generate ..." -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <mainClass>ai.Cli</mainClass>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

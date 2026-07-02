@@ -111,6 +111,15 @@
             <version>1.5.13</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Declared explicitly so Maven resolves it into the local repo on any
+             machine; surefire's argLine below loads it as a -javaagent. -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

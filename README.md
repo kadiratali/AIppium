@@ -22,7 +22,7 @@ It supports both **Android** and **iOS** platforms and provides an easy way to m
 
 | Technology     | Description |
 |----------------|-------------|
-| **Java 17**    | Core programming language |
+| **Java 21**    | Core programming language |
 | **Appium 3.x** | Mobile automation framework |
 | **TestNG**     | Test execution framework |
 | **Maven**      | Build and dependency management |

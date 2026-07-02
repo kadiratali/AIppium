@@ -53,6 +53,13 @@
             <version>${appium.version}</version>
         </dependency>
 
+        <!-- Gson: JSON for the AI layer (AnthropicClient / AiAssertEvaluator) -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
         <!-- Cucumber -->
         <dependency>
             <groupId>io.cucumber</groupId>
@@ -133,6 +140,15 @@
 
 
         <plugins>
+            <!-- Local test-runner UI: mvn -q compile exec:java -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <mainClass>ui.TestRunnerServer</mainClass>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -5,6 +5,12 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Cucumber tag expression to run (e.g. @Regression, @ContextMenu, @Smoke and not @Flaky)'
+        required: false
+        default: '@Regression'
 
 # Cancel any older, still-running CI run for the same branch when a new one
 # starts (e.g. a superseding push), instead of letting a hung run linger.
@@ -103,7 +109,7 @@ jobs:
           script: |
             appium --base-path / --log-timestamp > /tmp/appium.log 2>&1 & echo $! > /tmp/appium.pid
             timeout 60 sh -c 'until curl -sf http://localhost:4723/status; do sleep 2; done'
-            mvn -B test -Dcucumber.filter.tags="@Regression"
+            mvn -B test -Dcucumber.filter.tags="${{ github.event.inputs.tag || '@Regression' }}"
             kill "$(cat /tmp/appium.pid)" 2>/dev/null || true
 
       - name: Upload test reports

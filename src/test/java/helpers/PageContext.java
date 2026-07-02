@@ -14,7 +14,7 @@ public class PageContext {
         AppiumDriver driver = DriverManager.getDriver();
         this.wait = new WaitHelper(driver);
         this.element = new ElementHelper(driver, wait);
-        this.asserts = new AssertHelper(wait, element);
+        this.asserts = new AssertHelper(wait, element, driver);
         this.gesture = new GestureHelper(driver);
     }
 }

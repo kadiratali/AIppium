@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>:: AIPPIUM TEST RUNNER ::</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="crt">
+    <main>
+      <header class="banner">
+        <pre class="ascii-title">┌──────────────────────────────┐
+│   A I P P I U M   R U N N E R │
+└──────────────────────────────┘</pre>
+        <p class="subtitle">CI-DRIVEN TEST EXECUTION<span class="blink">_</span></p>
+      </header>
+
+      <section class="panel run-panel">
+        <label class="field-label" for="tag">TAG EXPRESSION</label>
+        <div class="run-bar">
+          <span class="prompt">&gt;</span>
+          <input id="tag" type="text" autocomplete="off" spellcheck="false"
+                 placeholder="@Regression, @ContextMenu, @Smoke and not @Flaky ..." value="@Regression">
+          <button id="runBtn">RUN</button>
+        </div>
+        <p id="statusLine" class="status">READY.</p>
+        <p id="runLink" class="run-link hidden"></p>
+      </section>
+
+      <section id="runner" class="panel runner-panel hidden">
+        <div class="track">
+          <div class="runner-sprite">🏃</div>
+        </div>
+        <p class="runner-label">RUNNING CI JOB<span class="blink">_</span></p>
+        <pre id="progressBar" class="progress-bar">[■□□□□□□□□□□□□□□□□□□□]</pre>
+      </section>
+
+      <section class="panel log-panel">
+        <div class="panel-title">LOG</div>
+        <pre id="logOutput" class="log-output">(no output yet)</pre>
+      </section>
+
+      <section id="resultsSection" class="panel results-panel hidden">
+        <div class="panel-title">RESULTS</div>
+        <table id="results" class="results">
+          <thead>
+            <tr>
+              <th>STATUS</th>
+              <th>FEATURE</th>
+              <th>SCENARIO</th>
+              <th>FAILED STEP / ERROR</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+
+      <section id="allureSection" class="panel allure-panel hidden">
+        <div class="panel-title">ALLURE REPORT</div>
+        <iframe id="allureFrame" class="allure-frame" title="Allure report"></iframe>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

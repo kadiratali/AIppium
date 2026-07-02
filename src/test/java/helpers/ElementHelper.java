@@ -136,7 +136,8 @@ public class ElementHelper {
         for (String attribute : BASELINE_ATTRIBUTES) {
             try {
                 String value = element.getAttribute(attribute);
-                if (value != null && !value.isBlank()) {
+                // UiAutomator2 returns the literal string "null" for absent attributes.
+                if (value != null && !value.isBlank() && !"null".equals(value)) {
                     attrs.put(attribute, value);
                 }
             } catch (Exception ignored) {

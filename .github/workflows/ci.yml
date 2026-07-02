@@ -88,13 +88,14 @@ jobs:
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           disable-animations: true
+          # The multi-line script below is run via /usr/bin/sh by this action, which
+          # doesn't reliably handle a `for ... do ... done` block spanning several
+          # lines here - keep each statement on a single line (the wait loop is
+          # collapsed into one `sh -c '...'` call) to avoid a shell parse error.
           script: |
             appium --base-path / --log-timestamp &
             APPIUM_PID=$!
-            for i in $(seq 1 30); do
-              curl -sf http://localhost:4723/status && break
-              sleep 2
-            done
+            timeout 60 sh -c 'until curl -sf http://localhost:4723/status; do sleep 2; done'
             mvn -B test -Dcucumber.filter.tags="@Regression"
             kill "$APPIUM_PID" || true
 

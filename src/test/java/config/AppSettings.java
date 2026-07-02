@@ -19,6 +19,8 @@ public class AppSettings {
     private static final Logger logger = LoggerFactory.getLogger(AppSettings.class);
     private static final String CONFIG_FILE_PATH = System.getProperty("user.dir") + "/src/config.json";
     private static final String DEFAULT_APPIUM_SERVER_URL = "http://localhost:4723";
+    private static final double DEFAULT_HEALING_THRESHOLD = 0.75;
+    private static final double DEFAULT_HEALING_MARGIN = 0.10;
     private static JSONObject config;
     private static String platform;
 
@@ -63,6 +65,34 @@ public class AppSettings {
     public static String getAppiumServerUrl() {
         Object url = config.get("appiumServerUrl");
         return url == null ? DEFAULT_APPIUM_SERVER_URL : url.toString();
+    }
+
+    /**
+     * Whether self-healing locators are enabled ("selfHealing.enabled" in config.json).
+     * Defaults to false when the block is missing.
+     */
+    public static boolean isSelfHealingEnabled() {
+        JSONObject settings = (JSONObject) config.get("selfHealing");
+        return settings != null && Boolean.TRUE.equals(settings.get("enabled"));
+    }
+
+    /** Minimum match score a healing candidate must reach (default 0.75). */
+    public static double getSelfHealingThreshold() {
+        return selfHealingNumber("threshold", DEFAULT_HEALING_THRESHOLD);
+    }
+
+    /** Minimum score gap required between the best and second-best candidate (default 0.10). */
+    public static double getSelfHealingMargin() {
+        return selfHealingNumber("margin", DEFAULT_HEALING_MARGIN);
+    }
+
+    private static double selfHealingNumber(String key, double fallback) {
+        JSONObject settings = (JSONObject) config.get("selfHealing");
+        if (settings == null) {
+            return fallback;
+        }
+        Object value = settings.get(key);
+        return value instanceof Number number ? number.doubleValue() : fallback;
     }
 
     private AppSettings() {

@@ -42,6 +42,10 @@ build/
 ### Mac OS ###
 .DS_Store
 
+### Self-healing locators ###
+# Per-machine baseline of last-known-good element attributes
+.locator-cache.json
+
 ### AI layer ###
 # Cucumber JSON + AI analiz çıktıları
 reports/

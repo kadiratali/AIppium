@@ -1,6 +1,11 @@
 {
   "platform": "android",
   "appiumServerUrl": "http://localhost:4723",
+  "selfHealing": {
+    "enabled": true,
+    "threshold": 0.75,
+    "margin": 0.10
+  },
   "android": {
     "platformName": "Android",
     "deviceName": "emulator-5554",

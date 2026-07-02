@@ -12,6 +12,7 @@ It supports both **Android** and **iOS** platforms and provides an easy way to m
 - 🧠 Modular structure using **Page Object Model (POM)**
 - ⚙️ Parallel test execution support
 - 📸 Automatic screenshot and screen recording capture on failure
+- 🩹 Self-healing locators: broken locators are re-resolved from the page source using last-known-good attributes (configurable via `selfHealing` in `src/config.json`; every heal is logged and attached to the Allure report)
 - 🧾 Detailed reporting with **Allure**
 - 🧪 Optional **Cucumber BDD** integration
 

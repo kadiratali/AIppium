@@ -1,6 +1,6 @@
 Feature: Incoming Message Notification
 
-  @Regression @Notification
+  @Notification
   Scenario: Verify that incoming notifications are shown and details match
     Given the user navigates to the following menu
       | MenuItem          |

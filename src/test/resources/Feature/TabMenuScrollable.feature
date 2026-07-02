@@ -1,6 +1,6 @@
 Feature: Scrollable Tabs Navigation
 
-  @Regression @ScrollableTabs @ResetAppBeforeTest
+  @ScrollableTabs @ResetAppBeforeTest
   Scenario: Navigating to the last tab in Scrollable Tabs and verifying Tab 30
     Given the user navigates to the following menu
       | MenuItem      |

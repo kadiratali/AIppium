@@ -1,6 +1,6 @@
 Feature: Hide and Show Menu
 
-  @Regression @HideShow
+  @HideShow
   Scenario: Hide and Show buttons functionality
     Given the user navigates to the following menu
       | MenuItem      |

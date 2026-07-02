@@ -1,6 +1,6 @@
 Feature: List Dialog Selection
 
-  @Regression @ListDialog
+  @ListDialog
   Scenario: Verify the order and name of the selected element in the list dialog
     Given the user navigates to the following menu
       | MenuItem        |

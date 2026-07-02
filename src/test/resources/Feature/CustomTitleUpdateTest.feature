@@ -1,6 +1,6 @@
 Feature: Custom Title Update
 
-  @Regression @CustomTitle @ClearCache
+  @CustomTitle @ClearCache
   Scenario: Validate default and updated texts in Custom Title Activity
     Given the user navigates to the following menu
       | MenuItem     |

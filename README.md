@@ -11,7 +11,7 @@ It supports both **Android** and **iOS** platforms and provides an easy way to m
 - 🌐 Cross-platform support (Android & iOS)
 - 🧠 Modular structure using **Page Object Model (POM)**
 - ⚙️ Parallel test execution support
-- 📸 Automatic screenshot capture on failure
+- 📸 Automatic screenshot and screen recording capture on failure
 - 🧾 Detailed reporting with **Allure**
 - 🧪 Optional **Cucumber BDD** integration
 

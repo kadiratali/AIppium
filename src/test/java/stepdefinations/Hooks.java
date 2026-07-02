@@ -6,6 +6,7 @@ import driver.DriverManager;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.screenrecording.CanRecordScreen;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -13,6 +14,8 @@ import org.json.simple.JSONObject;
 import org.openqa.selenium.OutputType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Base64;
 
 public class Hooks {
 
@@ -34,6 +37,7 @@ public class Hooks {
         logger.info("Scenario starting: {} [Thread: {}]", scenario.getName(), Thread.currentThread().getId());
 
         DriverManager.initializeDriver();
+        startScreenRecording();
 
         if (scenario.getSourceTagNames().contains(TARGET_TAG)) {
             logger.info("Scenario has the @ResetAppBeforeTest tag. Reinstalling the app...");
@@ -49,10 +53,15 @@ public class Hooks {
 
     /**
      * Runs AFTER every scenario.
-     * Takes a screenshot on failure and quits the driver.
+     * Takes a screenshot and stops the screen recording, attaching both on
+     * failure, and quits the driver.
      */
     @After
     public void tearDown(Scenario scenario) {
+
+        // Always stop the recording (even on pass) so it doesn't keep running on
+        // the device; only the failure path decodes and attaches it.
+        String recording = stopScreenRecording();
 
         if (scenario.isFailed()) {
             logger.error("Scenario FAILED: {}", scenario.getName());
@@ -68,6 +77,12 @@ public class Hooks {
                 } catch (Exception e) {
                     logger.error("Error while capturing the screenshot!", e);
                 }
+
+                if (recording != null) {
+                    scenario.attach(Base64.getDecoder().decode(recording), "video/mp4",
+                            "Failure video - " + scenario.getName());
+                    logger.info("Screen recording captured and attached to the report.");
+                }
             } else {
                 logger.warn("Driver was null, screenshot could not be captured.");
             }
@@ -76,6 +91,31 @@ public class Hooks {
             logger.info("Scenario PASSED: {}", scenario.getName());
         }
         DriverManager.removeDriver();
+    }
+
+    private void startScreenRecording() {
+        AppiumDriver driver = DriverManager.getDriver();
+        if (!(driver instanceof CanRecordScreen)) {
+            return;
+        }
+        try {
+            ((CanRecordScreen) driver).startRecordingScreen();
+        } catch (Exception e) {
+            logger.warn("Could not start screen recording.", e);
+        }
+    }
+
+    private String stopScreenRecording() {
+        AppiumDriver driver = DriverManager.getDriver();
+        if (!(driver instanceof CanRecordScreen)) {
+            return null;
+        }
+        try {
+            return ((CanRecordScreen) driver).stopRecordingScreen();
+        } catch (Exception e) {
+            logger.error("Error while stopping the screen recording!", e);
+            return null;
+        }
     }
 
 

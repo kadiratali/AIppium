@@ -28,7 +28,7 @@ import java.time.Duration;
  */
 public final class AnthropicClient {
 
-    public static final String MODEL = "claude-opus-4-8";
+    public static final String MODEL = "claude-sonnet-5";
     private static final String API_KEY_NAME = "ANTHROPIC_API_KEY";
     private static final String ENDPOINT = "https://api.anthropic.com/v1/messages";
     private static final String API_VERSION = "2023-06-01";

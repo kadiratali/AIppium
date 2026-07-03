@@ -38,6 +38,49 @@ It supports both **Android** and **iOS** platforms and provides an easy way to m
 ## 📁 Project Structure
 
 
+## 🔑 Environment Setup
+
+Two optional API keys unlock the AI features. Start from the template:
+
+```bash
+cp .env.example .env
+```
+
+Then edit `.env` and fill in whichever keys you need — never commit real values (`.env` is in `.gitignore`).
+
+### `ANTHROPIC_API_KEY` — required for `assertAi`
+
+1. Go to the [Anthropic Console](https://console.anthropic.com/) and sign in (or create an account).
+2. Open **API Keys** → **Create Key**.
+3. Copy the value (`sk-ant-...`) — it's only shown once.
+4. Add it to `.env`:
+   ```
+   ANTHROPIC_API_KEY=sk-ant-...
+   ```
+
+Without this key, any scenario calling `ctx.asserts.assertAi(...)` fails immediately with a clear error instead of silently skipping the check.
+
+### `GITHUB_TOKEN` — required for the Test Runner Dashboard
+
+The dashboard (see below) drives GitHub Actions on your behalf — dispatching the CI workflow, polling its status, and downloading the resulting artifact — which requires an authenticated token.
+
+1. On GitHub: profile picture (top right) → **Settings** → **Developer settings** (bottom of the left sidebar) → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**.
+2. Give it a name (e.g. "AIppium test runner") and an expiration.
+3. **Repository access** → "Only select repositories" → choose this repo.
+4. **Permissions** → **Actions** → set to **Read and write** (needed to dispatch the workflow and download artifacts). `Contents: Read-only` is enough for the rest.
+5. **Generate token** and copy the value (`github_pat_...` or `ghp_...` for a classic token) — it's only shown once.
+6. Add it to `.env`:
+   ```
+   GITHUB_TOKEN=github_pat_...
+   ```
+
+### Setting up CI/CD on GitHub (once, per fork/clone)
+
+The `CI` workflow (`.github/workflows/ci.yml`) needs no extra setup to run on `push`/`pull_request` — GitHub Actions is on by default for any repo. It only needs attention for two things:
+
+- **To trigger it from the Test Runner Dashboard:** the workflow must already exist on the repo's default branch with its `workflow_dispatch` trigger (i.e. this file must be pushed) — GitHub only allows dispatching workflows that are already registered there. Once `ci.yml` is on `main`, dispatching works from any clone with a valid `GITHUB_TOKEN`.
+- **Emulator job runtime:** the `appium-emulator-tests` job boots a real Android emulator on a GitHub-hosted runner (~10–15 min per run, including boot). No secrets are needed for this job itself.
+
 ## 🏃 Running Tests
 To execute the test cases in this framework, ensure that you have completed the necessary configuration as described in the Configuration section and that the Appium server is running. Follow these steps to run the tests:
 
@@ -68,7 +111,7 @@ ctx.asserts.assertAi("A context menu with two options, 'Menu A' and 'Menu B', is
 - For exact/deterministic values, prefer the regular locator-based asserts - AI verdicts aren't guaranteed reproducible.
 - Fails loudly (never silently passes) if `ANTHROPIC_API_KEY` is missing or the API call errors.
 
-**Setup:** add `ANTHROPIC_API_KEY=sk-ant-...` to a `.env` file at the project root (`cp .env.example .env`), or export it as an environment variable.
+**Setup:** see [`ANTHROPIC_API_KEY`](#anthropic_api_key--required-for-assertai) above.
 
 ---
 
@@ -86,7 +129,7 @@ Then open **http://localhost:8090**, type a tag expression (e.g. `@Regression`, 
 - Job/step status streams live into a log panel while the run is in progress.
 - Once the run finishes, the dashboard downloads the `appium-test-reports` artifact, shows a pass/fail scenario table, and renders the generated Allure report inline.
 - **Requires:**
-  - A `GITHUB_TOKEN` (`repo` + `workflow` scope) in `.env` - used to dispatch the workflow, poll its status, and download the resulting artifact.
+  - [`GITHUB_TOKEN`](#github_token--required-for-the-test-runner-dashboard) in `.env` (see above).
   - The `allure` CLI on `PATH` - used to generate the HTML report from the downloaded results.
 
 ---

@@ -49,12 +49,16 @@ main {
   text-shadow: 0 0 6px rgba(51, 255, 102, 0.6);
 }
 
-.ascii-title {
+.title-box {
+  display: inline-block;
   margin: 0;
-  font-size: 15px;
-  line-height: 1.3;
+  padding: 10px 22px;
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 6px;
   color: var(--green);
-  white-space: pre;
+  border: 1px solid var(--green);
+  box-shadow: 0 0 10px rgba(51, 255, 102, 0.3);
 }
 
 .subtitle {

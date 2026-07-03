@@ -175,18 +175,101 @@ main {
 
 .track {
   position: relative;
-  height: 34px;
-  border-bottom: 1px dashed var(--border);
+  height: 70px;
   overflow: hidden;
   margin-bottom: 10px;
 }
 
-.runner-sprite {
+/* Synthwave / neo-retro backdrop: glowing sun + receding neon grid */
+.synth-track {
+  background: linear-gradient(180deg, #1a0033 0%, #2a0040 55%, #12002a 100%);
+  border: 1px solid #ff2fd0;
+  box-shadow: 0 0 14px rgba(255, 47, 208, 0.35) inset;
+}
+
+.synth-sun {
   position: absolute;
-  font-size: 22px;
+  top: 8px;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, #ffd76b 0%, #ff5fa2 60%, #ff2fd0 100%);
+  box-shadow: 0 0 18px rgba(255, 95, 162, 0.8);
+  opacity: 0.85;
+}
+
+.synth-track::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(47, 243, 255, 0.35) 0 2px, transparent 2px 26px),
+    linear-gradient(180deg, transparent 45%, rgba(47, 243, 255, 0.12) 55%, rgba(47, 243, 255, 0.3) 100%);
+  background-position: bottom;
+}
+
+.synth-runner {
+  position: absolute;
+  bottom: 4px;
   left: -30px;
-  filter: drop-shadow(0 0 4px rgba(51, 255, 102, 0.7));
-  animation: dash 1.1s linear infinite;
+  width: 22px;
+  height: 30px;
+  z-index: 1;
+  filter: drop-shadow(0 0 4px rgba(255, 47, 208, 0.8));
+  animation: dash 4.5s linear infinite;
+}
+
+.s-head {
+  position: absolute;
+  top: 0;
+  left: 7px;
+  width: 8px;
+  height: 8px;
+  background: #ff2fd0;
+}
+
+.s-body {
+  position: absolute;
+  top: 8px;
+  left: 6px;
+  width: 10px;
+  height: 12px;
+  background: #ff2fd0;
+}
+
+.s-arm, .s-leg {
+  position: absolute;
+  width: 4px;
+  height: 11px;
+  background: #2ff3ff;
+}
+
+.s-arm {
+  top: 9px;
+  transform-origin: top center;
+}
+
+.s-arm-front { left: 13px; animation: swing-forward 0.6s steps(2) infinite; }
+.s-arm-back  { left: 5px;  animation: swing-back 0.6s steps(2) infinite; }
+
+.s-leg {
+  top: 19px;
+  transform-origin: top center;
+}
+
+.s-leg-front { left: 12px; animation: swing-back 0.6s steps(2) infinite; }
+.s-leg-back  { left: 6px;  animation: swing-forward 0.6s steps(2) infinite; }
+
+@keyframes swing-forward {
+  0%, 100% { transform: rotate(28deg); }
+  50%      { transform: rotate(-28deg); }
+}
+
+@keyframes swing-back {
+  0%, 100% { transform: rotate(-28deg); }
+  50%      { transform: rotate(28deg); }
 }
 
 @keyframes dash {

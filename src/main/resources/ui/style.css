@@ -251,25 +251,25 @@ main {
   transform-origin: top center;
 }
 
-.s-arm-front { left: 13px; animation: swing-forward 0.6s steps(2) infinite; }
-.s-arm-back  { left: 5px;  animation: swing-back 0.6s steps(2) infinite; }
+.s-arm-front { left: 13px; animation: swing-forward 1.4s steps(2) infinite; }
+.s-arm-back  { left: 5px;  animation: swing-back 1.4s steps(2) infinite; }
 
 .s-leg {
   top: 19px;
   transform-origin: top center;
 }
 
-.s-leg-front { left: 12px; animation: swing-back 0.6s steps(2) infinite; }
-.s-leg-back  { left: 6px;  animation: swing-forward 0.6s steps(2) infinite; }
+.s-leg-front { left: 12px; animation: swing-back 1.4s steps(2) infinite; }
+.s-leg-back  { left: 6px;  animation: swing-forward 1.4s steps(2) infinite; }
 
 @keyframes swing-forward {
-  0%, 100% { transform: rotate(28deg); }
-  50%      { transform: rotate(-28deg); }
+  0%, 100% { transform: rotate(20deg); }
+  50%      { transform: rotate(-20deg); }
 }
 
 @keyframes swing-back {
-  0%, 100% { transform: rotate(-28deg); }
-  50%      { transform: rotate(28deg); }
+  0%, 100% { transform: rotate(-20deg); }
+  50%      { transform: rotate(20deg); }
 }
 
 @keyframes dash {
@@ -306,6 +306,7 @@ main {
 
 .results {
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
   font-size: 12px;
 }
@@ -315,7 +316,14 @@ main {
   padding: 7px 9px;
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
 }
+
+.results th:nth-child(1), .results td:nth-child(1) { width: 64px; }
+.results th:nth-child(2), .results td:nth-child(2) { width: 15%; }
+.results th:nth-child(3), .results td:nth-child(3) { width: 25%; }
+.results th:nth-child(4), .results td:nth-child(4) { width: auto; }
 
 .results th {
   color: var(--green-dim);
@@ -333,9 +341,46 @@ main {
   font-weight: bold;
 }
 
+/* Retro "window" chrome around the Allure report. The report itself keeps
+   its own (readable, white) styling - only the frame around it is themed,
+   since reskinning Allure's internals is fragile and risks readability. */
+.crt-window {
+  border: 1px solid var(--green);
+  box-shadow: 0 0 14px rgba(51, 255, 102, 0.25);
+  background: #000;
+}
+
+.crt-window-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 10px;
+  background: linear-gradient(180deg, #123320, #081a10);
+  border-bottom: 1px solid var(--border);
+}
+
+.crt-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.crt-dot-red   { background: #ff5f56; box-shadow: 0 0 4px rgba(255, 95, 86, 0.7); }
+.crt-dot-amber { background: #ffbd2e; box-shadow: 0 0 4px rgba(255, 189, 46, 0.7); }
+.crt-dot-green { background: #27c93f; box-shadow: 0 0 4px rgba(39, 201, 63, 0.7); }
+
+.crt-window-label {
+  margin-left: 8px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--green-dim);
+}
+
 .allure-frame {
+  display: block;
   width: 100%;
   height: 900px;
-  border: 1px solid var(--border);
+  border: none;
   background: white;
 }
